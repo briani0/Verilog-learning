@@ -1,0 +1,28 @@
+module top_module ( 
+    input clk, 
+    input [7:0] d, 
+    input [1:0] sel, 
+    output [7:0] q 
+);
+    wire [7:0] a;
+    wire [7:0] b;
+    wire [7:0] c;
+    
+    my_dff8 inst (clk,d,a);
+    my_dff8 inst1 (clk,a,b);
+    my_dff8 inst2 (clk,b,c);
+    
+    always@(*) begin
+        case (sel)
+            2'b00: q = d;
+            2'b01: q = a;
+            2'b10: q = b;
+            2'b11: q = c;
+        endcase
+    end 
+    
+endmodule
+
+//lines 15-24 are how to create a mux (multiplexer) using an ALWAYS statement. the next thing I can do is to use cases to make it easier for myself
+//in earlier attempts, I did 2'b00-2'b03, which is wrong. sel only has 2 bits, so anything in the case section needs to be all the possible combinations of 0 and 1
+// the (*) is used to represent combinational logic sensitivity, rather than me having to define it, which would take more time
