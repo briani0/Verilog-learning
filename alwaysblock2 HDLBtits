@@ -1,0 +1,26 @@
+// synthesis verilog_input_version verilog_2001
+module top_module(
+    input clk,
+    input a,
+    input b,
+    output wire out_assign,
+    output reg out_always_comb,
+    output reg out_always_ff   );
+
+    assign out_assign = a^b;
+//this is using the assign function that I've been using since the basics section and shows how to make an xor gate (this is a continous assignment)
+    
+    
+    always @(*) begin
+        out_always_comb = a^b;
+    end
+
+// the code above is using the always block, which uses combinational logic to create the xor gate. this is done using a procedural blocking assignment (can only be used in a procedure block)
+
+    always @(posedge clk) begin
+        
+        out_always_ff <= a^b;
+    end
+//the code above is using a clocked block, which also uses combinational logic, but creates a set of flip-flops and causes a delay before the output is seen. it uses procedural non-blocking assignment, which can only be used in a procedure
+    
+endmodule
