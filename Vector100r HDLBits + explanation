@@ -1,0 +1,15 @@
+module top_module( 
+    input [99:0] in,
+    output [99:0] out
+);
+    integer i;
+    always @(*) begin
+    for (i = 0; i <100; i= i+1) begin
+        out[i] = in[99-i];
+    end
+    end
+
+endmodule
+
+//simple for loop in verilog that assigns the reverse the index of out to in
+// this was mentioned before somewhere in the hdlbits practice but assign can't be used in the loop because continious assignments cannot be made in a procedural block
