@@ -1,0 +1,17 @@
+module top_module (
+    input [7:0] a, b, c, d,
+    output [7:0] min);//
+
+    // assign intermediate_result1 = compare? true: false;
+    wire [7:0] wire1;
+    wire [7:0] wire2;
+    assign wire1 = (a < b) ? a: b; //determines the minimum of a and b and returns the smaller one
+    assign wire2 = (c < d) ? c: d; //determines the minimum of c and d and returns the smaller one
+    
+    assign min  = (wire1 < wire2) ? wire1: wire2; //returns the smaller value of the outputs from the previous conditions
+    
+    
+
+endmodule
+
+//the question asked me to determine the minimum value of the inputs. I made the mistake of introducing another wire then doing a third conditional because I wasn't properly thinking and didn't realize that there's only 4 numbers in the initial inputs
