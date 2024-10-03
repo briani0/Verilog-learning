@@ -1,0 +1,17 @@
+module top_module( 
+    input [254:0] in,
+    output [7:0] out );
+
+    int i;
+    
+    always @(*) begin
+        out = 0;
+        for (i = 0; i < 255; i = i+1) begin
+            out = out + in[i];
+        end
+        
+    end
+endmodule
+
+//need to review basic for loop in c/c++ to better understand the syntax in verilog
+//you start with 0 ones and increment as you iterate through the input vector 
