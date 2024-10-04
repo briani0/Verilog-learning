@@ -1,0 +1,26 @@
+module top_module( 
+    input [99:0] a, b,
+    input cin,
+    output [99:0] cout,
+    output [99:0] sum );
+    
+    
+    always @(*) begin
+        for (int i = 0; i<100; i++)begin:add
+            
+            if (i==0) begin
+                  sum[0] = a[0] ^ b[0] ^ cin;
+                 cout[0] = (a[0] & b[0]) | (a[0] & cin) | (b[0] & cin);
+                
+            end else begin
+            
+                 sum[i] = a[i] ^ b[i] ^ cout[i-1];
+                 cout[i] = (a[i] & b[i]) | (a[i] & cout[i-1]) | (b[i] & cout[i-1]);
+            
+        	end
+        end
+    end
+
+endmodule
+//the way a ripple-carry adder works is that basically it is summing the bits at a given iteration (a & b), but what i just learned by watching a youtube video on the adder is that the new carry-in is the carry-out from the previous iteration
+//this was able to work using combinational logic with the always block even though it said to use a generate statement, I will ask Madhav about this
