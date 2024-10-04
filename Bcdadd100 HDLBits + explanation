@@ -1,0 +1,39 @@
+module top_module( 
+    input [399:0] a, b,   // 100 BCD digits packed into 400 bits (100 * 4 bits)
+    input cin,            // Initial carry-in
+    output cout,   // Carry-out from each BCD addition
+    output [399:0] sum    // 100-digit BCD sum
+);
+
+    wire [99:0] temp_cout;
+
+    generate
+        genvar i;
+        for (i = 0; i < 100; i = i + 1) begin:add
+            
+            if (i == 0) begin
+                // First BCD adder uses external carry-in (cin)
+                bcd_fadd brian (
+                    .a(a[3:0]),      // First 4 bits of input 'a'
+                    .b(b[3:0]),      // First 4 bits of input 'b'
+                    .cin(cin),       // External carry-in
+                    .cout(temp_cout[0]),  // Carry-out for the first stage
+                    .sum(sum[3:0])   // First 4 bits of the sum
+                );
+            end else begin
+                // Remaining BCD adders use the carry from the previous stage
+                bcd_fadd brian1 (
+                    .a(a[4*i+3:4*i]),      // BCD digit from 'a'
+                    .b(b[4*i+3:4*i]),      // BCD digit from 'b'
+                    .cin(temp_cout[i-1]),       // Carry-in from previous adder
+                    .cout(temp_cout[i]),        // Carry-out for the current stage
+                    .sum(sum[4*i+3:4*i])   // Corresponding 4 bits of the sum
+                );
+            end
+        end
+        assign cout = temp_cout[99];
+    endgenerate
+
+endmodule
+//answer obtained with the help of online and gpt
+//this is obtained by defining the variables at i==0, then doing the rest and multiplying the index by 4 to get 400 bit vectors
